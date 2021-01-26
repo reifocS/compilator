@@ -3,35 +3,36 @@ package ast;
 import typer.Type;
 
 public class Var extends Exp {
-    private String text;
+    private final String name;
 
     public Var(String text) {
         super();
-        this.text = text;
+        this.name = text;
     }
 
     public String getText() {
-        return text;
+        return name;
     }
 
     @Override
     public String toString() {
         return "Var{" +
-                "text='" + text + '\'' +
+                "text='" + name + '\'' +
                 '}';
     }
 
     @Override
     public String gen(State<Type> s, State<FunSig> f) {
-        return text;
+        this.type(s,f);
+        return name;
     }
 
     public int eval(State<Integer> s, State<FunDef> f) {
-        return s.lookup(text);
+        return s.lookup(name);
     }
 
     @Override
     public Type type(State<Type> stVar, State<FunSig> stFun) {
-        return null;
+        return stVar.lookup(name);
     }
 }

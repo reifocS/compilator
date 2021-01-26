@@ -2,6 +2,8 @@ package ast;
 
 import typer.Type;
 
+import static typer.AType.BOOL;
+
 public class VarDef extends AST {
 
     private String name;
@@ -22,7 +24,10 @@ public class VarDef extends AST {
 
     @Override
     public String gen(State<Type> s, State<FunSig> f) {
-        return "int " + name + " = " + val.gen(s,f) + ";\n";
+        Type t = val.type(s,f);
+        s.bind(name, t);
+        String type = t.deref().equals(BOOL) ? "bool " : "int "; //TODO refactor pour scalabilité.
+        return type + name + " = " + val.gen(s,f) + ";\n";
     }
 
     public String getName() { return name;}

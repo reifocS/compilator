@@ -20,7 +20,7 @@ public class BoolLit extends Exp {
 
     @Override
     public String gen(State<Type> s, State<FunSig> f) {
-        return bool ? "1" : "0";
+        return bool ? "true" : "false";
     }
 
     @Override

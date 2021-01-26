@@ -1,4 +1,5 @@
 #include <stdio.h>
 int main() {
-  return printf("%i\n",1/0);
+  bool a = true;
+  return printf("%i\n",a);
 }
