@@ -1,7 +1,5 @@
 package ast;
 
-import parser.State;
-
 import java.lang.reflect.Field;
 
 public abstract class AST {
@@ -36,5 +34,5 @@ public abstract class AST {
     }
 
     public abstract String gen();
-    public abstract int eval(State<Integer> s);
+    public abstract int eval(State<Integer> s, State<FunDef> f);
 }

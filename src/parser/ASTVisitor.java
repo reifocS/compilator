@@ -1,6 +1,6 @@
 package parser;
 
-import ast.AST;
+import ast.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class ASTVisitor extends CalcBaseVisitor<AST> {
     @Override
     public AST visitVarDef(CalcParser.VarDefContext ctx) {
         String id = ctx.variableId().getText();
-        AST exp = visit(ctx.expression());
+        Exp exp = (Exp) visit(ctx.expression());
         return new VarDef(id, exp);
     }
 
@@ -70,5 +70,15 @@ public class ASTVisitor extends CalcBaseVisitor<AST> {
         Exp exp2 = (Exp) visit(expressions.get(1));
         Exp exp3 = (Exp) visit(expressions.get(2));
         return new CondExp(exp1, exp2, exp3);
+    }
+
+    @Override
+    public AST visitParenthesisExp(CalcParser.ParenthesisExpContext ctx) {
+        return new ParenthesisExp((Exp) visit(ctx.expression()));
+    }
+
+    @Override
+    public AST visitVar(CalcParser.VarContext ctx) {
+        return new Var(ctx.getText());
     }
 }

@@ -4,26 +4,23 @@ grammar Calc;
 
 program  : funcDef* body
          ;
-funcDef  : '(' 'defun' head body ')'
+funcDef  : '(' 'defun' head body
          ;
 head     : '(' functionId variableId* ')'
          ;
-body     : varDef* expression
+body     : varDef* expression EOF
          ;
-varDef   : '(' '=' variableId expression ')'
+varDef   : variableId '=' expression
          ;
 expression : LITERAL #IntLit
            | BOOLEAN #BoolLit
-           | ('-' | '!') expression #UnExp
-           | <assoc = left> expression ('*' | '/') expression #BinExp
-           | <assoc = left> expression ('-' | '+') expression #BinExp
-           | <assoc = left> expression ('>' | '<') expression #BinExp
-           | <assoc = left> expression ('>=' | '<=') expression #BinExp
-           | <assoc = left> expression ('==' | '!=') expression #BinExp
-           | <assoc = left> expression '&&' expression #BinExp
-           | <assoc = left> expression '||' expression #BinExp
-           | <assoc = right> expression '?' expression ':' expression #CondExp
            | variableId #Var
+           | ('-' | '!') expression #UnExp
+           | expression ('*' | '/') expression #BinExp
+           | <assoc = right> expression ('&&' | '||') expression #BinExp
+           | expression ('-' | '+' | '>' | '<' | '>=' | '<=' | '==' | '!=') expression #BinExp
+           | '(' expression ')' # ParenthesisExp
+           | <assoc = right> expression '?' expression ':' expression #CondExp
            ;
 
 variableId : IDENTIFIER
@@ -33,8 +30,8 @@ functionId : IDENTIFIER
 
 // lexical rules
 
-OP       : '+' | '*' | '/' | '==' | '<' | '>=' | '!=' | '||' | '&&' | '<=' | '>' | '-'
-         ;
+// OP       : '+' | '*' | '/' | '==' | '<' | '>=' | '!=' | '||' | '&&' | '<=' | '>' | '-'
+//         ;
 LITERAL  : '0' | ('1'..'9')('0'..'9')*
          ;
 BOOLEAN  : 'true' | 'false'

@@ -1,6 +1,8 @@
 package calc;
 
 import ast.AST;
+import ast.FunDef;
+import ast.State;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -29,7 +31,6 @@ public class Calc {
             if (arg.charAt(0) != '-') {
                 filename = arg;
                 is = new FileInputStream(arg);
-                //compile(is, filename);
             } else switch (arg) {
                 case "-v" -> verbose = true;
                 case "-i" -> interpret = true;
@@ -65,12 +66,12 @@ public class Calc {
     }
     public static int interpret(InputStream is) throws IOException {
         AST ast = analyze(is);
-        return ast.eval(new State<>());
+        return ast.eval(new State<Integer>(), new State<FunDef>());
     }
     public static void compile(InputStream is, String inputFile) throws IOException {
 
         AST ast = analyze(is);
-        String code = Program.genMain(ast.gen()); // TODO: update for blue and red tracks
+        String code = ast.gen(); // TODO: update for blue and red tracks
         if (inputFile != null)
             write(code, inputFile);
         else
