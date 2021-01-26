@@ -21,25 +21,23 @@ public class Body extends AST {
 
     public String genMain() {
         String varDefs = "";
-        for (VarDef v: varDefList) {
+        for (VarDef v : varDefList) {
             varDefs += "  " + v.gen();
         }
-        return "#include <stdio.h>\n" +
-                "int main() {\n" +
-                 varDefs +
+        return "int main() {\n" +
+                varDefs +
                 "  return printf(\"%i\\n\"," + ast.gen() + ");\n" +
                 "}";
     }
 
     @Override
     public String gen() {
-        String varDefs = "{\n";
-        for (VarDef v: varDefList) {
+        String varDefs = "";
+        for (VarDef v : varDefList) {
             varDefs += "  " + v.gen();
         }
         return varDefs +
-                "  return " + ast.gen() + ";\n" +
-                "}";
+                "  return " + ast.gen() + ";";
     }
 
     @Override

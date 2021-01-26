@@ -1,6 +1,8 @@
 package ast;
 
 
+import typer.Type;
+
 public class UnExp extends Exp {
     private final UnOp unOp;
     private final Exp exp;
@@ -31,5 +33,10 @@ public class UnExp extends Exp {
             return 0;
         }
         throw new IllegalArgumentException("unOp not recognized");
+    }
+
+    @Override
+    public Type type(State<Type> stVar, State<FunSig> stFun) {
+        return null;
     }
 }

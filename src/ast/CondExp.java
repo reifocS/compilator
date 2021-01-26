@@ -1,5 +1,7 @@
 package ast;
 
+import typer.Type;
+
 public class CondExp extends Exp {
     private final Exp exp1;
     private final Exp exp2;
@@ -30,5 +32,10 @@ public class CondExp extends Exp {
         if (exp1.eval(s, f) != 0)
             return exp2.eval(s, f);
         return exp3.eval(s, f);
+    }
+
+    @Override
+    public Type type(State<Type> stVar, State<FunSig> stFun) {
+        return null;
     }
 }

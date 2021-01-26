@@ -1,5 +1,7 @@
 package ast;
 
+import typer.Type;
+
 public class ParenthesisExp extends Exp {
     private Exp expression;
 
@@ -22,5 +24,10 @@ public class ParenthesisExp extends Exp {
         return "ParenthesisExp{" +
                 "expression=" + expression +
                 '}';
+    }
+
+    @Override
+    public Type type(State<Type> stVar, State<FunSig> stFun) {
+        return null;
     }
 }

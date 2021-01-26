@@ -2,8 +2,8 @@ package ast;
 
 public class FunDef extends AST {
 
-    private Head head;
-    private Body body;
+    private final Head head;
+    private final Body body;
 
     public FunDef(Head head, Body body) {
         this.head = head;
@@ -12,7 +12,7 @@ public class FunDef extends AST {
 
     @Override
     public String gen() {
-        return new StringBuilder("int " + this.head.gen() + " {\n" + this.body.gen() + "\n}\n").toString();
+        return "int " + this.head.gen() + " {\n" + this.body.gen() + "\n}\n";
 
     }
 

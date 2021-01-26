@@ -1,5 +1,7 @@
 package ast;
 
+import typer.Type;
+
 public class BinExp extends Exp {
     private final OPSYM operator;
     private final Exp exp1;
@@ -22,6 +24,7 @@ public class BinExp extends Exp {
 
     @Override
     public String gen() {
+
         return exp1.gen() + OPSYM.parseOP(operator) + exp2.gen();
     }
 
@@ -57,5 +60,13 @@ public class BinExp extends Exp {
             return 0;
         }
         throw new IllegalArgumentException("OP not recognized");
+    }
+
+    @Override
+    public Type type(State<Type> stVar, State<FunSig> stFun) {
+        Type t1 = exp1.type(stVar, stFun);
+        Type t2 = exp2.type(stVar, stFun);
+        Type binExpType = t1.unify(t2);
+        return binExpType;
     }
 }
