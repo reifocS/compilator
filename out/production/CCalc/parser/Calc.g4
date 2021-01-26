@@ -4,9 +4,9 @@ grammar Calc;
 
 program  : funcDef* body
          ;
-funcDef  : '(' 'defun' head body
+funcDef  : head body
          ;
-head     : '(' functionId variableId* ')'
+head     : functionId '(' variableId* ')'
          ;
 body     : varDef* expression EOF
          ;

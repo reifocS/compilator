@@ -81,4 +81,12 @@ public class ASTVisitor extends CalcBaseVisitor<AST> {
     public AST visitVar(CalcParser.VarContext ctx) {
         return new Var(ctx.getText());
     }
+
+    @Override
+    public AST visitProgram(CalcParser.ProgramContext ctx) {
+        Body body = (Body)visit(ctx.body());
+        List<FunDef> functions = new ArrayList<FunDef>();
+        ctx.funcDef().stream().forEach(function -> functions.add((FunDef)visit(function)));
+        return new Program(functions, body);
+    }
 }
