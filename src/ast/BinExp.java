@@ -1,6 +1,10 @@
 package ast;
 
+import typer.SemanticError;
 import typer.Type;
+
+import static typer.AType.BOOL;
+import static typer.AType.INT;
 
 public class BinExp extends Exp {
     private final OPSYM operator;
@@ -23,9 +27,9 @@ public class BinExp extends Exp {
     }
 
     @Override
-    public String gen() {
-
-        return exp1.gen() + OPSYM.parseOP(operator) + exp2.gen();
+    public String gen(State<Type> s, State<FunSig> f) {
+        this.type(s, f);
+        return exp1.gen(s, f) + OPSYM.parseOP(operator) + exp2.gen(s, f);
     }
 
     @Override
@@ -64,9 +68,31 @@ public class BinExp extends Exp {
 
     @Override
     public Type type(State<Type> stVar, State<FunSig> stFun) {
-        Type t1 = exp1.type(stVar, stFun);
-        Type t2 = exp2.type(stVar, stFun);
-        Type binExpType = t1.unify(t2);
-        return binExpType;
+        Type t = exp1.type(stVar, stFun).unify(exp2.type(stVar, stFun));
+        if (t.deref().equals(BOOL)) {
+            switch (operator) {
+                case PLUS:
+                case MINUS:
+                case DIVIDE:
+                case TIMES:
+                case SUPERIOR:
+                case SUPERIOREQ:
+                case INFERIOR:
+                case INFERIOREQ:
+                    throw new SemanticError("Types invalids");
+                default:
+            }
+        } else { // integer
+            switch (operator) {
+                case OR:
+                case AND:
+                    throw new SemanticError("Types invalids");
+                default:
+            }
+        }
+        return switch (operator) {
+            case AND, OR, EQUALS, NOTEQ, SUPERIOR, SUPERIOREQ, INFERIOR, INFERIOREQ -> BOOL;
+            default -> INT;
+        };
     }
 }

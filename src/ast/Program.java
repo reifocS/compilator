@@ -1,5 +1,7 @@
 package ast;
 
+import typer.Type;
+
 import java.util.List;
 
 public class Program extends AST {
@@ -22,8 +24,8 @@ public class Program extends AST {
     }
 
     @Override
-    public String gen() {
-        return "#include <stdio.h>\r\n" + body.genMain();
+    public String gen(State<Type> s, State<FunSig> f) {
+        return "#include <stdio.h>\r\n" + body.genMain(s, f);
     }
 
     @Override

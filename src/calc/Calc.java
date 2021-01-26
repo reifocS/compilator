@@ -2,11 +2,13 @@ package calc;
 
 import ast.AST;
 import ast.FunDef;
+import ast.FunSig;
 import ast.State;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import parser.*;
+import typer.Type;
 
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -72,7 +74,7 @@ public class Calc {
 
         AST ast = analyze(is);
         //ast.eval(new State<Integer>(), new State<FunDef>());
-        String code = ast.gen(); // TODO: update for blue and red tracks
+        String code = ast.gen(new State<Type>(), new State<FunSig>()); // TODO: update for blue and red tracks
         if (inputFile != null)
             write(code, inputFile);
         else

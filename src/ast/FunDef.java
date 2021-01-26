@@ -1,5 +1,7 @@
 package ast;
 
+import typer.Type;
+
 public class FunDef extends AST {
 
     private final Head head;
@@ -11,8 +13,8 @@ public class FunDef extends AST {
     }
 
     @Override
-    public String gen() {
-        return "int " + this.head.gen() + " {\n" + this.body.gen() + "\n}\n";
+    public String gen(State<Type> s, State<FunSig> f) {
+        return "int " + this.head.gen(s,f) + " {\n" + this.body.gen(s,f) + "\n}\n";
 
     }
 

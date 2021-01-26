@@ -10,8 +10,8 @@ public class ParenthesisExp extends Exp {
     }
 
 
-    public String gen() {
-        return "(" + this.expression.gen() + ")";
+    public String gen(State<Type> s, State<FunSig> f) {
+        return "(" + this.expression.gen(s,f) + ")";
     }
 
     @Override
@@ -28,6 +28,6 @@ public class ParenthesisExp extends Exp {
 
     @Override
     public Type type(State<Type> stVar, State<FunSig> stFun) {
-        return null;
+        return expression.type(stVar, stFun);
     }
 }

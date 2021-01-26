@@ -2,6 +2,8 @@ package ast;
 
 import typer.Type;
 
+import static typer.AType.BOOL;
+
 public class CondExp extends Exp {
     private final Exp exp1;
     private final Exp exp2;
@@ -23,8 +25,9 @@ public class CondExp extends Exp {
     }
 
     @Override
-    public String gen() {
-        return exp1.gen() + "? " + exp2.gen() + " : " + exp3.gen();
+    public String gen(State<Type> s, State<FunSig> f) {
+        this.type(s, f);
+        return exp1.gen(s, f) + "? " + exp2.gen(s, f) + " : " + exp3.gen(s, f);
     }
 
     @Override
@@ -36,6 +39,8 @@ public class CondExp extends Exp {
 
     @Override
     public Type type(State<Type> stVar, State<FunSig> stFun) {
-        return null;
+        exp1.type(stVar,stFun).unify(BOOL);
+        exp2.type(stVar,stFun).unify(exp3.type(stVar,stFun));
+        return exp2.type(stVar, stFun);
     }
 }

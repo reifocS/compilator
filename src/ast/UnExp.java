@@ -1,7 +1,11 @@
 package ast;
 
 
+import typer.SemanticError;
 import typer.Type;
+
+import static typer.AType.BOOL;
+import static typer.AType.INT;
 
 public class UnExp extends Exp {
     private final UnOp unOp;
@@ -20,13 +24,21 @@ public class UnExp extends Exp {
     }
 
     @Override
-    public String gen() {
-        return UnOp.parseOP(unOp) + exp.gen();
+    public String gen(State<Type> s, State<FunSig> f) {
+        Type t = this.type(s, f);
+        if (t.deref().equals(BOOL) && unOp.equals(UnOp.MINUS)) {
+            throw new SemanticError("types invalid");
+        }
+        else if (t.deref().equals(INT) && unOp.equals(UnOp.NOT)) {
+            throw new SemanticError("types invalid");
+        }
+        else
+            return UnOp.parseOP(unOp) + exp.gen(s, f);
     }
 
     public int eval(State<Integer> t, State<FunDef> f) {
         if (unOp.equals(UnOp.MINUS))
-            return  - exp.eval(t, f);
+            return -exp.eval(t, f);
         if (unOp.equals(UnOp.NOT)) {
             if (exp.eval(t, f) == 0)
                 return 1;
@@ -37,6 +49,6 @@ public class UnExp extends Exp {
 
     @Override
     public Type type(State<Type> stVar, State<FunSig> stFun) {
-        return null;
+        return exp.type(stVar, stFun);
     }
 }

@@ -1,5 +1,7 @@
 package ast;
 
+import typer.Type;
+
 import java.lang.reflect.Field;
 
 public abstract class AST {
@@ -33,6 +35,6 @@ public abstract class AST {
 //		return "<" + relativeClassName + ">" + args + "</" + relativeClassName + ">";
     }
 
-    public abstract String gen();
+    public abstract String gen(State<Type> s, State<FunSig> f);
     public abstract int eval(State<Integer> s, State<FunDef> f);
 }

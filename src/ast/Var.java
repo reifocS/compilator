@@ -10,6 +10,10 @@ public class Var extends Exp {
         this.text = text;
     }
 
+    public String getText() {
+        return text;
+    }
+
     @Override
     public String toString() {
         return "Var{" +
@@ -18,7 +22,7 @@ public class Var extends Exp {
     }
 
     @Override
-    public String gen() {
+    public String gen(State<Type> s, State<FunSig> f) {
         return text;
     }
 

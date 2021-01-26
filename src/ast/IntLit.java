@@ -18,7 +18,7 @@ public class IntLit extends Exp {
     }
 
     @Override
-    public String gen() {
+    public String gen(State<Type> s, State<FunSig> f) {
         return Integer.toString(integer);
     }
 

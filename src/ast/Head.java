@@ -1,5 +1,7 @@
 package ast;
 
+import typer.Type;
+
 import java.util.List;
 
 public class Head extends AST {
@@ -12,10 +14,10 @@ public class Head extends AST {
     }
 
     @Override
-    public String gen() {
+    public String gen(State<Type> s, State<FunSig> f) {
         StringBuilder generation = new StringBuilder();
-        generation.append("int " + this.functionName.gen() + "(");
-        this.variableIds.stream().forEach(var -> generation.append(var.gen() + ", "));
+        generation.append("int " + this.functionName.gen(s, f) + "(");
+        this.variableIds.stream().forEach(var -> generation.append(var.gen(s, f) + ", "));
         generation.delete(generation.length() - 2, generation.length());
         generation.append(")");
         return generation.toString();
@@ -35,6 +37,6 @@ public class Head extends AST {
     }
 
     public String getId() {
-        return functionName.gen();
+        return functionName.getText();
     }
 }

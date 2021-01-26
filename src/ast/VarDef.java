@@ -1,5 +1,7 @@
 package ast;
 
+import typer.Type;
+
 public class VarDef extends AST {
 
     private String name;
@@ -19,8 +21,8 @@ public class VarDef extends AST {
     }
 
     @Override
-    public String gen() {
-        return "int " + name + " = " + val.gen() + ";\n";
+    public String gen(State<Type> s, State<FunSig> f) {
+        return "int " + name + " = " + val.gen(s,f) + ";\n";
     }
 
     public String getName() { return name;}

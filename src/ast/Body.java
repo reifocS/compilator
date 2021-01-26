@@ -1,5 +1,7 @@
 package ast;
 
+import typer.Type;
+
 import java.util.List;
 
 public class Body extends AST {
@@ -19,25 +21,25 @@ public class Body extends AST {
                 '}';
     }
 
-    public String genMain() {
+    public String genMain(State<Type> s, State<FunSig> f) {
         String varDefs = "";
         for (VarDef v : varDefList) {
-            varDefs += "  " + v.gen();
+            varDefs += "  " + v.gen(s, f);
         }
         return "int main() {\n" +
                 varDefs +
-                "  return printf(\"%i\\n\"," + ast.gen() + ");\n" +
+                "  return printf(\"%i\\n\"," + ast.gen(s, f) + ");\n" +
                 "}";
     }
 
     @Override
-    public String gen() {
+    public String gen(State<Type> s, State<FunSig> f) {
         String varDefs = "";
         for (VarDef v : varDefList) {
-            varDefs += "  " + v.gen();
+            varDefs += "  " + v.gen(s, f);
         }
         return varDefs +
-                "  return " + ast.gen() + ";";
+                "  return " + ast.gen(s, f) + ";";
     }
 
     @Override
