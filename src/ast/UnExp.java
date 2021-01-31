@@ -4,8 +4,10 @@ package ast;
 import typer.SemanticError;
 import typer.Type;
 
-import static typer.AType.BOOL;
-import static typer.AType.INT;
+import static typer.Atom.BOOL;
+import static typer.Atom.INT;
+
+
 
 public class UnExp extends Exp {
     private final UnOp unOp;

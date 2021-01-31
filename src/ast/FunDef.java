@@ -31,6 +31,10 @@ public class FunDef extends AST {
                 '}';
     }
 
+    public Head getHead() {
+        return head;
+    }
+
     public String getId() {
         return this.head.getId();
     }

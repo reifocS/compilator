@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdbool.h>
 int main() {
-  int a = 101;
-  return printf("%i\n",a);
+  return printf("%i\n",4/(5-3));
 }

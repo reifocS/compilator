@@ -1,4 +1,4 @@
-// Generated from C:/Users/Vincent/dev/CCalcCop/CCalc/src/parser\Calc.g4 by ANTLR 4.9
+// Generated from C:/Users/Vincent/dev/CCalcCop/CCalc/src/parser\Calc.g4 by ANTLR 4.9.1
 package parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -54,6 +54,13 @@ public interface CalcVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCondExp(CalcParser.CondExpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FunCall}
+	 * labeled alternative in {@link CalcParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunCall(CalcParser.FunCallContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code UnExp}
 	 * labeled alternative in {@link CalcParser#expression}.

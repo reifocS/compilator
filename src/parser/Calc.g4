@@ -2,18 +2,19 @@ grammar Calc;
 
 // syntactic rules
 
-program  : funcDef* body
+program  : funcDef* body EOF
          ;
 funcDef  : head body
          ;
 head     : functionId '(' variableId* ')'
          ;
-body     : varDef* expression EOF
+body     : varDef* expression
          ;
 varDef   : variableId '=' expression
          ;
 expression : LITERAL #IntLit
            | BOOLEAN #BoolLit
+           | functionId '(' expression* ')' #FunCall
            | variableId #Var
            | ('-' | '!') expression #UnExp
            | expression ('*' | '/') expression #BinExp

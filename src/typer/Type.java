@@ -1,6 +1,6 @@
 package typer;
 
 public interface Type {
-    public Type deref();
-    public Type unify(Type t);
+    Type deref();
+    boolean unify(Type t);
 }

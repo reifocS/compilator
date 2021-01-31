@@ -1,8 +1,9 @@
 package ast;
+
+
 import typer.Type;
 
-import static typer.AType.BOOL;
-
+import static typer.Atom.BOOL;
 
 public class BoolLit extends Exp {
     private boolean bool;

@@ -1,8 +1,10 @@
 package ast;
 
+import typer.SemanticError;
 import typer.Type;
 
-import static typer.AType.BOOL;
+import static typer.Atom.BOOL;
+
 
 public class CondExp extends Exp {
     private final Exp exp1;
@@ -39,8 +41,10 @@ public class CondExp extends Exp {
 
     @Override
     public Type type(State<Type> stVar, State<FunSig> stFun) {
-        exp1.type(stVar,stFun).unify(BOOL);
-        exp2.type(stVar,stFun).unify(exp3.type(stVar,stFun));
+        if (!exp1.type(stVar,stFun).unify(BOOL))
+            throw new SemanticError("Expected boolean expression for CondExp.");
+        if (!exp2.type(stVar,stFun).unify(exp3.type(stVar,stFun)))
+            throw new SemanticError("Different types for CondExp.");
         return exp2.type(stVar, stFun);
     }
 }

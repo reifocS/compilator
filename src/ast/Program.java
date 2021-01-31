@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Program extends AST {
 
-    private List<FunDef> functions;
-    private Body body;
+    private final List<FunDef> functions;
+    private final Body body;
 
     public Program(List<FunDef> functions, Body body) {
         this.functions = functions;
@@ -25,8 +25,11 @@ public class Program extends AST {
 
     @Override
     public String gen(State<Type> s, State<FunSig> f) {
-
-        return "#include <stdio.h>\r\n" + "#include <stdbool.h>\r\n" + body.genMain(s, f);
+        StringBuilder funDefs = new StringBuilder();
+        for (FunDef fun : functions) {
+            funDefs.append(fun.gen(s, f));
+        }
+        return "#include <stdio.h>\r\n" + "#include <stdbool.h>\r\n" + funDefs + body.genMain(s, f);
     }
 
     @Override

@@ -2,7 +2,7 @@ package ast;
 
 import typer.Type;
 
-import static typer.AType.BOOL;
+import static typer.Atom.BOOL;
 
 public class VarDef extends AST {
 

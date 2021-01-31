@@ -1,5 +1,8 @@
 #include <stdio.h>
+#include <stdbool.h>
 int main() {
-  bool a = true;
-  return printf("%i\n",a);
+  int a = 10;
+  int b = 2;
+  bool c = true;
+  return printf("%i\n",c? a+b : 42);
 }

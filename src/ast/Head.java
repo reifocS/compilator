@@ -36,6 +36,10 @@ public class Head extends AST {
                 '}';
     }
 
+    public List<Var> getVariableIds() {
+        return variableIds;
+    }
+
     public String getId() {
         return functionName.getText();
     }

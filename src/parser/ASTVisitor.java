@@ -83,10 +83,46 @@ public class ASTVisitor extends CalcBaseVisitor<AST> {
     }
 
     @Override
+    public AST visitFunctionId(CalcParser.FunctionIdContext ctx) {
+        return new Var(ctx.getText());
+    }
+
+    @Override
     public AST visitProgram(CalcParser.ProgramContext ctx) {
-        Body body = (Body)visit(ctx.body());
-        List<FunDef> functions = new ArrayList<FunDef>();
-        ctx.funcDef().stream().forEach(function -> functions.add((FunDef)visit(function)));
-        return new Program(functions, body);
+        List<CalcParser.FuncDefContext> funcDefCtxs = ctx.funcDef();
+        List<FunDef> functions = new ArrayList<>();
+        for (CalcParser.FuncDefContext f: funcDefCtxs)
+            functions.add((FunDef) visit(f));
+        Body b = (Body) visit(ctx.body());
+        return new Program(functions, b);
+    }
+
+    @Override
+    public AST visitHead(CalcParser.HeadContext ctx) {
+        Var name = (Var) visit(ctx.functionId());
+        List<Var> params = new ArrayList<>();
+        List<CalcParser.VariableIdContext> varCtxs = ctx.variableId();
+        for(CalcParser.VariableIdContext v : varCtxs) {
+            params.add((Var) visit(v));
+        }
+        return new Head(name, params);
+    }
+
+    @Override
+    public AST visitFuncDef(CalcParser.FuncDefContext ctx) {
+        Head h = (Head) visit(ctx.head());
+        Body b = (Body) visit(ctx.body());
+        return new FunDef(h, b);
+    }
+
+    @Override
+    public AST visitFunCall(CalcParser.FunCallContext ctx) {
+        Var name = (Var) visit(ctx.functionId());
+        List<CalcParser.ExpressionContext> expCtxs = ctx.expression();
+        List<Exp> exps = new ArrayList<>();
+        for (CalcParser.ExpressionContext exp : expCtxs) {
+            exps.add((Exp) visit(exp));
+        }
+        return new FunCall(name, exps);
     }
 }

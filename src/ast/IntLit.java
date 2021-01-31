@@ -1,7 +1,8 @@
 package ast;
 
 import typer.Type;
-import static typer.AType.INT;
+
+import static typer.Atom.INT;
 
 public class IntLit extends Exp {
     private int integer;

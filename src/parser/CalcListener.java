@@ -1,4 +1,4 @@
-// Generated from C:/Users/Vincent/dev/CCalcCop/CCalc/src/parser\Calc.g4 by ANTLR 4.9
+// Generated from C:/Users/Vincent/dev/CCalcCop/CCalc/src/parser\Calc.g4 by ANTLR 4.9.1
 package parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -81,6 +81,18 @@ public interface CalcListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCondExp(CalcParser.CondExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FunCall}
+	 * labeled alternative in {@link CalcParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunCall(CalcParser.FunCallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FunCall}
+	 * labeled alternative in {@link CalcParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunCall(CalcParser.FunCallContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code UnExp}
 	 * labeled alternative in {@link CalcParser#expression}.

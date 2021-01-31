@@ -1,2 +1,6 @@
-a = true
-a
+a = 10
+b = 2
+c = true
+c ? a + b: 42
+
+

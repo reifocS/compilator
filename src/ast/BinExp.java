@@ -3,8 +3,7 @@ package ast;
 import typer.SemanticError;
 import typer.Type;
 
-import static typer.AType.BOOL;
-import static typer.AType.INT;
+import static typer.Atom.*;
 
 public class BinExp extends Exp {
     private final OPSYM operator;
@@ -68,8 +67,11 @@ public class BinExp extends Exp {
 
     @Override
     public Type type(State<Type> stVar, State<FunSig> stFun) {
-        Type t = exp1.type(stVar, stFun).unify(exp2.type(stVar, stFun));
-        if (t.deref().equals(BOOL)) {
+        Type t1 = exp1.type(stVar, stFun);
+        Type t2 = exp2.type(stVar, stFun);
+        if (! t1.unify(t2))
+            throw new SemanticError("Different types for binexp.");
+        if (t1.unify(BOOL)) {
             switch (operator) {
                 case PLUS:
                 case MINUS:

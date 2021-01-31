@@ -1,4 +1,4 @@
-// Generated from C:/Users/Vincent/dev/CCalcCop/CCalc/src/parser\Calc.g4 by ANTLR 4.9
+// Generated from C:/Users/Vincent/dev/CCalcCop/CCalc/src/parser\Calc.g4 by ANTLR 4.9.1
 package parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -95,6 +95,18 @@ public class CalcBaseListener implements CalcListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCondExp(CalcParser.CondExpContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunCall(CalcParser.FunCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunCall(CalcParser.FunCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
