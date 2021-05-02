@@ -4,6 +4,8 @@ import typer.Type;
 
 import java.util.List;
 
+import static typer.Atom.BOOL;
+
 public class Head extends AST {
     private final Var functionName;
     private final List<Var> variableIds;
@@ -16,9 +18,13 @@ public class Head extends AST {
     @Override
     public String gen(State<Type> s, State<FunSig> f) {
         StringBuilder generation = new StringBuilder();
-        generation.append("int " + this.functionName.gen(s, f) + "(");
-        this.variableIds.stream().forEach(var -> generation.append(var.gen(s, f) + ", "));
-        generation.delete(generation.length() - 2, generation.length());
+        Type ret = f.lookup(functionName.getText()).getRet();
+        String retString = ret.deref().equals(BOOL) ? "boolean" : "int";
+        generation.append(retString).append(" ").append(functionName.getText()).append("(");
+        for (Var v : variableIds) {
+            String t = v.type(s, f).deref().equals(BOOL) ? "boolean" : "int";
+            generation.append(t).append(" ").append(v.gen(s, f));
+        }
         generation.append(")");
         return generation.toString();
     }

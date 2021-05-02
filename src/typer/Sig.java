@@ -14,4 +14,12 @@ public class Sig {
         }
         this.ret = new Var();
     }
+
+    public List<Type> getArgs() {
+        return args;
+    }
+
+    public Type getRet() {
+        return ret;
+    }
 }

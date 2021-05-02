@@ -25,11 +25,13 @@ public class Program extends AST {
 
     @Override
     public String gen(State<Type> s, State<FunSig> f) {
+        StringBuilder funSigs = new StringBuilder();
         StringBuilder funDefs = new StringBuilder();
         for (FunDef fun : functions) {
+            funSigs.append(fun.getHead().gen(s, f)).append(";\n");
             funDefs.append(fun.gen(s, f));
         }
-        return "#include <stdio.h>\r\n" + "#include <stdbool.h>\r\n" + funDefs + body.genMain(s, f);
+        return "#include <stdio.h>\r\n" + "#include <stdbool.h>\r\n" + funSigs + funDefs + body.genMain(s, f);
     }
 
     @Override
@@ -40,4 +42,13 @@ public class Program extends AST {
         return body.eval(s, f);
     }
 
+    public void type(State<Type> s, State<FunSig> f) {
+        for (FunDef funDef : functions) {
+            funDef.init(f);
+        }
+        for (FunDef funDef : functions) {
+            funDef.type(s, f);
+        }
+        this.body.type(s,f);
+    }
 }

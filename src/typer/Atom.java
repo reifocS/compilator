@@ -21,4 +21,9 @@ public enum Atom implements Type {
             return true;
         }
     }
+
+    public static String toString(Atom a) {
+        if(a.equals(BOOL)) return "boolean";
+        return "int";
+    }
 }

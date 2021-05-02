@@ -1,9 +1,6 @@
 package calc;
 
-import ast.AST;
-import ast.FunDef;
-import ast.FunSig;
-import ast.State;
+import ast.*;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -68,13 +65,16 @@ public class Calc {
     }
     public static int interpret(InputStream is) throws IOException {
         AST ast = analyze(is);
-        return ast.eval(new State<Integer>(), new State<FunDef>());
+        return ast.eval(new State<>(), new State<>());
     }
     public static void compile(InputStream is, String inputFile) throws IOException {
 
         AST ast = analyze(is);
         //ast.eval(new State<Integer>(), new State<FunDef>());
-        String code = ast.gen(new State<Type>(), new State<FunSig>()); // TODO: update for blue and red tracks
+        State<Type> type = new State<>();
+        State<FunSig> funSig = new State<>();
+        ((Program) ast).type(type, funSig);
+        String code = ast.gen(type, funSig);
         if (inputFile != null)
             write(code, inputFile);
         else

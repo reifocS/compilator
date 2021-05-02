@@ -13,6 +13,10 @@ public class Body extends AST {
     private final List<VarDef> varDefList;
     private final AST ast;
 
+    public AST getAst() {
+        return ast;
+    }
+
     @Override
     public String toString() {
         return "Body{" +
@@ -22,9 +26,9 @@ public class Body extends AST {
     }
 
     public String genMain(State<Type> s, State<FunSig> f) {
-        String varDefs = "";
+        StringBuilder varDefs = new StringBuilder();
         for (VarDef v : varDefList) {
-            varDefs += "  " + v.gen(s, f);
+            varDefs.append("  ").append(v.gen(s, f));
         }
         return "int main() {\n" +
                 varDefs +
@@ -34,9 +38,9 @@ public class Body extends AST {
 
     @Override
     public String gen(State<Type> s, State<FunSig> f) {
-        String varDefs = "";
+        StringBuilder varDefs = new StringBuilder();
         for (VarDef v : varDefList) {
-            varDefs += "  " + v.gen(s, f);
+            varDefs.append("  ").append(v.gen(s, f));
         }
         return varDefs +
                 "  return " + ast.gen(s, f) + ";";
@@ -48,5 +52,12 @@ public class Body extends AST {
             s.bind(v.getName(), v.eval(s, f));
         }
         return ast.eval(s, f);
+    }
+
+    public Type type(State<Type> s, State<FunSig> f) {
+        for (VarDef v : varDefList) {
+            s.bind(v.getName(), v.type(s, f));
+        }
+        return ((Exp) ast).type(s, f);
     }
 }

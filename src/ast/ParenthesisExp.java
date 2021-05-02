@@ -3,7 +3,7 @@ package ast;
 import typer.Type;
 
 public class ParenthesisExp extends Exp {
-    private Exp expression;
+    private final Exp expression;
 
     public ParenthesisExp(Exp expression) {
         this.expression = expression;

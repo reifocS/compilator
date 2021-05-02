@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FunCall extends Exp {
-    private Var id;
-    private List<Exp> param;
+    private final Var id;
+    private final List<Exp> param;
 
     public FunCall(Var id, List<Exp> param) {
         this.id = id;
@@ -24,12 +24,16 @@ public class FunCall extends Exp {
 
     @Override
     public String gen(State<Type> s, State<FunSig> f) {
-        return null;
+        StringBuilder paramToString = new StringBuilder();
+        for (Exp e: param) {
+            paramToString.append(e.gen(s, f));
+        }
+        return this.id.getText() + "(" + paramToString + ")";
     }
 
     public int eval(State<Integer> s, State<FunDef> f) {
         FunDef function = f.lookup(id.getText());
-        State sPrime = new State<Integer>();
+        State<Integer> sPrime = new State<>();
         List<Var> vars = function.getHead().getVariableIds();
         List<String> names = new ArrayList<>();
         for (Var var: vars)
@@ -43,6 +47,11 @@ public class FunCall extends Exp {
 
     @Override
     public Type type(State<Type> stVar, State<FunSig> stFun) {
-        return null;
+        FunSig sign = stFun.lookup(this.id.getText());
+        List<Type> signArgs = sign.getArgs();
+        for(int i = 0; i < signArgs.size(); ++i){
+            this.param.get(i).type(stVar, stFun).unify(signArgs.get(i));
+        }
+        return sign.getRet();
     }
 }

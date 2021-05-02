@@ -5,7 +5,7 @@ import typer.Type;
 import static typer.Atom.INT;
 
 public class IntLit extends Exp {
-    private int integer;
+    private final int integer;
 
     public IntLit(int integer) {
         this.integer = integer;

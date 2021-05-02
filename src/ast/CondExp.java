@@ -28,7 +28,6 @@ public class CondExp extends Exp {
 
     @Override
     public String gen(State<Type> s, State<FunSig> f) {
-        this.type(s, f);
         return exp1.gen(s, f) + "? " + exp2.gen(s, f) + " : " + exp3.gen(s, f);
     }
 

@@ -7,7 +7,7 @@ import java.util.Map;
 // a state can be seen as a function of type Identifier -> Value
 public class State<Value> {
     // the function is implemented as a map
-    private Map<String, Value> map = new HashMap<>();
+    private final Map<String, Value> map = new HashMap<>();
 
     // look up the value of an identifier
     // throws an (unchecked) exception if the identifier does not exist

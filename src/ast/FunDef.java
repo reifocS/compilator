@@ -2,6 +2,8 @@ package ast;
 
 import typer.Type;
 
+import java.util.List;
+
 public class FunDef extends AST {
 
     private final Head head;
@@ -14,7 +16,7 @@ public class FunDef extends AST {
 
     @Override
     public String gen(State<Type> s, State<FunSig> f) {
-        return "int " + this.head.gen(s,f) + " {\n" + this.body.gen(s,f) + "\n}\n";
+        return this.head.gen(s,f) + " {\n" + this.body.gen(s,f) + "\n}\n";
 
     }
 
@@ -37,5 +39,20 @@ public class FunDef extends AST {
 
     public String getId() {
         return this.head.getId();
+    }
+
+    public void init(State<FunSig> stFun) {
+        stFun.bind(this.head.getId(), new FunSig(this.head.getVariableIds().size()));
+    }
+
+    public void type(State<Type> s, State<FunSig> stFun) {
+        FunSig fs = stFun.lookup(this.head.getId());
+        List<Type> fsVars = fs.getArgs();
+        List<Var> vars = this.head.getVariableIds();
+        int i = 0;
+        for(Var v : vars) {
+            s.bind(v.getText(),fsVars.get(i++));
+        }
+        this.body.type(s, stFun).unify(fs.getRet());
     }
 }

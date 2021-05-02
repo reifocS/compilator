@@ -23,7 +23,6 @@ public class Var extends Exp {
 
     @Override
     public String gen(State<Type> s, State<FunSig> f) {
-        this.type(s,f);
         return name;
     }
 
@@ -33,6 +32,10 @@ public class Var extends Exp {
 
     @Override
     public Type type(State<Type> stVar, State<FunSig> stFun) {
-        return stVar.lookup(name);
+        try {
+            return stVar.lookup(name);
+        } catch(Exception e) {
+            return stFun.lookup(name).getRet();
+        }
     }
 }

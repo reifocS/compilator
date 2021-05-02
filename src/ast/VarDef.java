@@ -6,8 +6,8 @@ import static typer.Atom.BOOL;
 
 public class VarDef extends AST {
 
-    private String name;
-    private Exp val;
+    private final String name;
+    private final Exp val;
 
     public VarDef(String name, Exp val) {
         this.name = name;
@@ -25,7 +25,6 @@ public class VarDef extends AST {
     @Override
     public String gen(State<Type> s, State<FunSig> f) {
         Type t = val.type(s,f);
-        s.bind(name, t);
         String type = t.deref().equals(BOOL) ? "bool " : "int "; //TODO refactor pour scalabilité.
         return type + name + " = " + val.gen(s,f) + ";\n";
     }
@@ -35,5 +34,9 @@ public class VarDef extends AST {
     @Override
     public int eval(State<Integer> s, State<FunDef> f) {
         return val.eval(s, f);
+    }
+
+    public Type type(State<Type> stVar, State<FunSig> stFun) {
+        return this.val.type(stVar, stFun);
     }
 }
